@@ -35,23 +35,27 @@ describe('[thing-it] Plugtest', function () {
 
     });
 
-    describe('Light', function () {
-        describe('#start', function () {
+    describe('Plug', function () {
+        describe('#turnOn', function () {
             this.timeout(5000);
 
             it('should have turn on',
                 function (done) {
                     setTimeout(function () {
-                        var currentState = testDriver.plug.getPowerState();
-                        initialState = JSON.parse(JSON.stringify(currentState));
-                        lastState = initialState;
-
+                        var curState;
+                        
+                        testDriver.plug.plug.powerOn();
+                        testDriver.plug.plug.getPowerState().then((st) => {
+                            curstate = st;
+                            console.log("st: " + st);
+                        });;
+                        
                         try {
-                            assert.notEqual(initialState.dimmerLevel, undefined, 'dimmerLevel undefined');
-                            assert.notEqual(initialState.lightActive, undefined, 'lightActive undefined');
+                            assert.notEqual(curstate, undefined, 'currentState undefined');
+                            assert.notEqual(curstate, false, 'did not power on');
                             done();
                         } catch (err) {
-                            console.log('ERROR DEBUG pluginTestJalousieLoytec: Initial state after 5s.', initialState);
+                            console.log('ERROR DEBUG plugtest: Error during power on');
                             done(err);
                         }
                     }, 4000);
@@ -62,7 +66,7 @@ describe('[thing-it] Plugtest', function () {
 
 
     after(function () {
-        testDriver.stop();
+        //testDriver.stop();
     });
 });
 

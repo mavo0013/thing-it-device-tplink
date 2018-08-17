@@ -132,11 +132,14 @@ function Plug() {
             
             const plug = client.getDevice({host: ip}).then((device)=>{
                 //device.getSysInfo().then(console.log);
-                var result = device.getPowerState().then(console.log);
-                this.state = {
-                    powerState: result
-                }
-                this.publishStateChange();
+                var result = device.getPowerState().then((erg) => {
+                    console.log("result:" + erg);
+                    this.state = {
+                        powerState: erg
+                    }
+                    this.publishStateChange(); 
+                });
+                
                 deferred.resolve();
             });
         }
