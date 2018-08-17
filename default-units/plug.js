@@ -140,6 +140,7 @@ function Plug() {
                     this.publishStateChange(); 
                 });
                 
+                
                 deferred.resolve();
             });
         }
